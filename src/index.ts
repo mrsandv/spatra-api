@@ -3,8 +3,8 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
-const applicantsRouter = require('./routes/applicants.ts');
-const usersRouter = require('./routes/users.ts');
+const applicantsRouter = require('./routes/applicants');
+const usersRouter = require('./routes/users');
 
 dotenv.config();
 
@@ -24,7 +24,7 @@ app.use('/api/applicants', applicantsRouter);
 
 app.use('/api/users', usersRouter);
 
-app.get('/api/version', (req, res) => {
+app.get('/api/version', (req: any, res: any) => {
   res.status(200).json({ version: '1.0' });
 });
 
