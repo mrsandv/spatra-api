@@ -1,4 +1,54 @@
-const sendEmail = require('../lib/sendMail');
+const sgMail = require('@sendgrid/mail');
+
+function sendEmail(data) {
+	const {
+		name,
+		middleName,
+		lastName,
+		age,
+		email,
+		gender,
+		nationality,
+		phone,
+		firstLanguage,
+		vacancy,
+		eraFile,
+		idFile,
+	} = data;
+	sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+	const msg = {
+		to: 'msandoval.dev@gmail.com',
+		from: 'contacto@spanish-ta.com',
+		subject: 'Nuevo registro para evaluación',
+		text: 'null',
+		html: `
+			<div>La informacion de contacto para el nuevo registro es:
+				<ul>
+					<li>Nombre: ${name} ${middleName && middleName} ${lastName}</li>
+					<li>Correo: ${email}</li>
+					<li>Edad: ${age}</li>
+					<li>Genero: ${gender}</li>
+					<li>Telefono: ${phone}</li>
+					<li>Primer lengua: ${firstLanguage}</li>
+					<li>Vacante: ${vacancy}</li>
+					<li>Nacionalidad: ${nationality}</li>
+				</ul>
+				<p>Sistema ERA</p>
+				<img src="${eraFile}" />
+				<br/>
+				<p>Identificacion</p>
+				<img src="${idFile}" />
+			</div>`,
+	};
+	sgMail
+		.send(msg)
+		.then(() => {
+			console.log('Email sent');
+		})
+		.catch((error) => {
+			console.error(error);
+		});
+}
 
 const Applicant = require('../models/applicant');
 
@@ -53,7 +103,7 @@ exports.create = async (req, res) => {
 		gender,
 		nationality,
 		phone,
-		firstLanguaje,
+		firstLanguage,
 		vacancy,
 		eraFile,
 		idFile,
@@ -67,7 +117,7 @@ exports.create = async (req, res) => {
 		gender,
 		nationality,
 		phone,
-		firstLanguaje,
+		firstLanguage,
 		vacancy,
 		eraFile,
 		idFile,

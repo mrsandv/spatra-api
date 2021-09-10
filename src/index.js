@@ -3,10 +3,11 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
-const applicantsRouter = require('./routes/applicants');
-const usersRouter = require('./routes/users');
 
 dotenv.config();
+
+const applicantsRouter = require('./routes/applicants');
+const usersRouter = require('./routes/users');
 
 mongoose.set('useCreateIndex', true);
 mongoose.connect(process.env.DB_URL, { useNewUrlParser: true });

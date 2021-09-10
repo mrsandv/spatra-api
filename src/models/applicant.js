@@ -33,7 +33,7 @@ const applicantSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
-	firstLanguaje: {
+	firstLanguage: {
 		type: String,
 		required: true,
 	},
