@@ -17,7 +17,7 @@ function sendEmail(data) {
 	} = data;
 	sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 	const msg = {
-		to: 'msandoval.dev@gmail.com',
+		to: 'contacto@spanish-ta.com',
 		from: 'contacto@spanish-ta.com',
 		subject: 'Nuevo registro para evaluación',
 		text: 'null',
