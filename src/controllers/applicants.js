@@ -1,6 +1,6 @@
 const sgMail = require('@sendgrid/mail');
 
-function sendEmail(data) {
+function sendEmail(data, toClient) {
 	const {
 		name,
 		middleName,
@@ -14,29 +14,45 @@ function sendEmail(data) {
 		vacancy,
 		eraFile,
 		idFile,
+		_id,
 	} = data;
 	sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 	const msg = {
-		to: 'contacto@spanish-ta.com',
+		to: toClient ? email : 'contacto@spanish-ta.com',
 		from: 'contacto@spanish-ta.com',
 		subject: 'Nuevo registro para evaluación',
 		text: 'null',
-		html: `
+		html: toClient
+			? `
+		<div>Your registration information is:
+			<ul>
+				<li>Folio: ${_id}</li>
+				<li>Nombre: ${name} ${middleName && middleName} ${lastName}</li>
+				<li>Correo: ${email}</li>
+				<li>Edad: ${age}</li>
+				<li>Género: ${gender}</li>
+				<li>Teléfono: ${phone}</li>
+				<li>Primera lengua: ${firstLanguage}</li>
+				<li>Vacante: ${vacancy}</li>
+				<li>Nacionalidad: ${nationality}</li>
+			</ul>
+		</div>`
+			: `
 			<div>La informacion de contacto para el nuevo registro es:
 				<ul>
 					<li>Nombre: ${name} ${middleName && middleName} ${lastName}</li>
 					<li>Correo: ${email}</li>
 					<li>Edad: ${age}</li>
-					<li>Genero: ${gender}</li>
-					<li>Telefono: ${phone}</li>
-					<li>Primer lengua: ${firstLanguage}</li>
+					<li>Género: ${gender}</li>
+					<li>Teléfono: ${phone}</li>
+					<li>Primera lengua: ${firstLanguage}</li>
 					<li>Vacante: ${vacancy}</li>
 					<li>Nacionalidad: ${nationality}</li>
 				</ul>
 				<p>Sistema ERA</p>
 				<img src="${eraFile}" />
 				<br/>
-				<p>Identificacion</p>
+				<p>Identificación</p>
 				<img src="${idFile}" />
 			</div>`,
 	};
@@ -125,6 +141,7 @@ exports.create = async (req, res) => {
 	try {
 		const newApplicant = await applicant.save();
 		sendEmail(newApplicant);
+		sendEmail(newApplicant, true);
 		res.status(201).json(newApplicant);
 	} catch (err) {
 		res.status(400).json({ message: err.message });

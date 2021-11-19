@@ -19,4 +19,23 @@ function sendEmail(data) {
 		});
 }
 
-exports.modules = sendEmail;
+function sendEmailToClient(data) {
+	sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+	const msg = {
+		to: data.email,
+		from: 'contacto@spanish-ta.com',
+		subject: 'Sending with SendGrid is Fun',
+		text: 'Test message to sendgrind integration',
+		html: `<strong>Important information: New applicant contact ${data.name}</strong>`,
+	};
+	sgMail
+		.send(msg)
+		.then(() => {
+			console.log('Email sent');
+		})
+		.catch((error) => {
+			console.error(error);
+		});
+}
+
+exports.modules = { sendEmail, sendEmailToClient };
