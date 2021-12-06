@@ -18,8 +18,8 @@ function sendEmail(data, toClient) {
 	} = data;
 	sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 	const msg = {
-		to: toClient ? email : 'contacto@spanish-ta.com',
-		from: 'contacto@spanish-ta.com',
+		to: toClient ? email : process.env.HOST_EMAIL,
+		from: process.env.HOST_EMAIL,
 		subject: 'Nuevo registro para evaluación',
 		text: 'null',
 		html: toClient
